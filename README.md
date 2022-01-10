@@ -33,14 +33,16 @@ data "external" "salt-key" {
   }
 }
 ```
-* In terraform add a provisioner to the VMs for cleaning up:
+* In terraform add a provisioner to the VMs as part of the vm resource
+for cleaning up:
 ```
   provisioner "local-exec" {
     command = "python salt_generate_key.py -d ${self.name_label}"
     when = destroy
   }
 ```
-* In terraform add a template file for cloud-init:
+* In terraform add a template file for cloud-init, called
+`cloud-config.tpl`:
 ```
 data "template_file" "cloudinit" {
   template = fileexists( join("", ["cloud-config-", replace(var.hostname, "/\\d+$/", ""), ".tpl"] ) ) ? join("", [ file("cloud-config.tpl"), file( join("", ["cloud-config-", replace(var.hostname, "/\\d+$/", ""), ".tpl"] ) ) ] ) : file("cloud-config.tpl")
