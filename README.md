@@ -41,8 +41,8 @@ for cleaning up:
     when = destroy
   }
 ```
-* In terraform add a template file for cloud-init, called
-`cloud-config.tpl`:
+* In terraform add a data block for the template file that cloud-init
+will use.  Note that this supports overrides for specific hostnames.
 ```
 data "template_file" "cloudinit" {
   template = fileexists( join("", ["cloud-config-", replace(var.hostname, "/\\d+$/", ""), ".tpl"] ) ) ? join("", [ file("cloud-config.tpl"), file( join("", ["cloud-config-", replace(var.hostname, "/\\d+$/", ""), ".tpl"] ) ) ] ) : file("cloud-config.tpl")
@@ -54,7 +54,8 @@ data "template_file" "cloudinit" {
   }
 }
 ```
-* Create the cloud-init template file:
+* Create the cloud-init template file in the top level of the terraform
+directory: `cloud-config.tpl`:
 ```
 #cloud-config
 hostname: ${hostname}.${site}.internal
