@@ -70,3 +70,19 @@ ${salt_public_key}
   private_key: |
 ${salt_private_key}
 ```
+
+* In terraform pass in the cloudinit template file to the VM:
+  * For XenOrchestra:
+    ```
+    resource "xenorchestra_vm" "test" {
+      cloud_config = data.template_file.cloudinit.rendered
+    ```
+  * For VMWare vsphere:
+    ```
+    resource vsphere_virtual_machine "test" {
+      extra_config = {
+        "guestinfo.metadata"          = base64encode(data.template_file.cloudinit.rendered)
+	"guestinfo.metadata.encoding" = "base64"
+      }
+    }
+    ```
