@@ -32,7 +32,7 @@ def login():
   # Login to the API
   # {"return": [{"token": "5adf36aef2770ee886828937350a8dbd5eb95d51", "expire": 1603861472.3164086, "start": 1603818272.316407, "user": "terraform-salt", "eauth": "pam", "perms": ["@wheel"]}]}%
   login_http_params = { 'username': pam_user, 'password': pam_passwd, 'eauth': 'pam' }
-  login_url = 'https://' + salt_master + ':' + str(salt_port) + '/login'
+  login_url = salt_url + 'login'
   login = requests.post(login_url, data = login_http_params, headers = http_headers, verify = ca_cert)
   if login.status_code != requests.codes.ok:
     print(f'Error logging in to: {login_url}')
