@@ -82,7 +82,7 @@ ${salt_private_key}
     resource vsphere_virtual_machine "test" {
       extra_config = {
         "guestinfo.metadata"          = base64encode(data.template_file.cloudinit.rendered)
-	"guestinfo.metadata.encoding" = "base64"
+        "guestinfo.metadata.encoding" = "base64"
       }
     }
     ```
