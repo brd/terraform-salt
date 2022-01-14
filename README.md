@@ -75,11 +75,14 @@ ${salt_private_key}
   * For XenOrchestra:
     ```
     resource "xenorchestra_vm" "test" {
+      ...
       cloud_config = data.template_file.cloudinit.rendered
+    }
     ```
   * For VMWare vsphere:
     ```
     resource vsphere_virtual_machine "test" {
+      ...
       extra_config = {
         "guestinfo.metadata"          = base64encode(data.template_file.cloudinit.rendered)
         "guestinfo.metadata.encoding" = "base64"
